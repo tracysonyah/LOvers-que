@@ -92,12 +92,10 @@ function collect_details() {
 collect_details
 
 function matchmake() {
-    if [[ "$user_gender" == "male" || "$user_gender" == "Male" ]]
-    then
+    if [[ "$user_gender" == "male" || "$user_gender" == "Male" ]]; then
         function age_difference() {
             echo $(($1 - $2))
         }
-        # age_difference
 
         while read -r user_profile; do
             user_name=$(echo "$user_profile" | awk -F ', ' '{print $1}')
@@ -111,16 +109,60 @@ function matchmake() {
                 male_interest=$(echo "$male_profiles" | awk -F ', ' '{print $3}')
                 male_profession=$(echo "$male_profiles" | awk -F ', ' '{print $4}')
 
-            age_diff=$(age_difference "$user_age" "$male_age")
-            echo "Age difference: $age_diff years"
+                if [[ "$user_interest" == "$male_interest" && "$(age_difference "$user_age" "$male_age")" -ge 0 && \
+                "$(age_difference "$user_age" "$male_age")" -le 5 ]]; then
+                    echo "Compatibility: $user_name and $male_name share common interest and age compatibility"
+                elif [[ "$user_name" == "$male_name" ]]; then
+                    echo "The only thing $user_name and $male_name have in common is the shared name, nothing majorly compatible"
+                elif [[ "$user_profession" == "$male_profession" ]]; then
+                    echo "$user_name and $male_name have the same profession, that doesn't define compatibilty"
+                elif [[ "$user_profession" == "$male_profession" && "$user_interest" == "$male_interest" ]]; then
+                    echo "Compatibility: $user_name and $male_name share common interest and profession"
+                elif [[ "$user_name" == "$male_name" && "$user_interest" == "$male_interest" ]]; then
+                    echo "Compatibility: $user_name and $male_name share common interest and name"
+                else
+                    echo "Sorry, $user_name share nothing in common with $male_name, you are not compatible."
+                    echo "But then again, opposite attracts. Go ahead and message them."
+                fi
+            done < male_profile.txt
+        done < user_profile.txt
 
-                   
+    elif [[ "$user_gender" == "female" || "$user_gender" == "Female" ]]; then
+        function age_difference() {
+            echo $(($1 - $2))
+        }
 
-    elif [[ "$user_gender" == "female" || "$user_gender" == "Female" ]]
-    then
-        awk '{print $0}' female_profiles.txt
+        while read -r user_profile; do
+            user_name=$(echo "$user_profile" | awk -F ', ' '{print $1}')
+            user_age=$(echo "$user_profile" | awk -F ', ' '{print $2}')
+            user_interest=$(echo "$user_profile" | awk -F ', ' '{print $3}')
+            user_profession=$(echo "$user_profile" | awk -F ', ' '{print $5}')
+
+            while read -r female_profiles; do
+                female_name=$(echo "$female_profiles" | awk -F ', ' '{print $1}')
+                female_age=$(echo "$female_profiles" | awk -F ', ' '{print $2}')
+                female_interest=$(echo "$female_profiles" | awk -F ', ' '{print $3}')
+                female_profession=$(echo "$female_profiles" | awk -F ', ' '{print $4}')
+
+                if [[ "$user_interest" == "$female_interest" && "$(age_difference "$user_age" "$female_age")" -ge 0 && \
+                "$(age_difference "$user_age" "$female_age")" -le 5 ]]; then
+                    echo "Compatibility: $user_name and $female_name share common interest and age compatibility"
+                elif [[ "$user_name" == "$female_name" ]]; then
+                    echo "The only thing $user_name and $female_name have in common is the shared name, nothing majorly compatible"
+                elif [[ "$user_profession" == "$female_profession" ]]; then
+                    echo "$user_name and $female_name have the same profession, that doesn't define compatibilty"
+                elif [[ "$user_profession" == "$female_profession" && "$user_interest" == "$female_interest" ]]; then
+                    echo "Compatibility: $user_name and $female_name share common interest and profession"
+                elif [[ "$user_name" == "$female_name" && "$user_interest" == "$female_interest" ]]; then
+                    echo "Compatibility: $user_name and $female_name share common interest and name"
+                else
+                    echo "Sorry, $user_name share nothing in common with $female_name, you are not compatible."
+                    echo "But then again, opposite attracts. Go ahead and message them."
+                fi
+            done < female_profile.txt
+        done < user_profile.txt
     else
-        read -p "What's your gender? (male/female) " user_gender
+        echo "You entered an incorrect gender"
     fi
 }
 matchmake
