@@ -359,27 +359,82 @@ function set_arrays() {
   done
 }
 
-# function input_checker() {
-#   if [ -z "$1" ]; then
-#     echo "Enter a correct and valid value for $2"
-#     # exit 1
-#     fi
-# }
+function calculate_compatibility() {
+  match=$1
+  compatibility=$(echo "$user_name","$match" | awk '{print rand(100)}')
+  format_compatibility=$(printf "%.2f" "$compatibility")
+  echo "Compatibility with $match is: $format_compatibility%"
+}
 
-# function check_others() {
-#   input_checker "$user_name" "Name"
-#   input_checker "$user_age" "Age"
-#   input_checker "$user_gender" "Gender"
-#   input_checker "$user_interest" "Interest"
-#   input_checker "$user_Personality" "Personality"
-#   input_checker "$user_value" "Value"
-# }
-# check_others
+function calculate_unique_compatibility() {
+  for match in "${unique_matches[@]}"; do
+    calculate_compatibility "$match" &
+  done
+
+  wait
+}
+calculate_unique_compatibility
 
 
-#warning_quotes
-# Never mistake empathy for affection
+function display_horoscope() {
+  horoscope_days=$(date +%A)
 
+  if [[ "$horoscope_days" == "Monday" ]]; then
+    echo "Horoscope for today is: Today is a great day to connect with friends and family. You might just find love in the most unexpected places."
+  elif [[ "$horoscope_days" == "Tuesday" ]]; then
+    echo "Horoscope for today is: Love is in the air today, so take a chance and strike up a conversation with someone new."
+  elif [[ "$horoscope_days" == "$Wednesday" ]]; then
+    echo "Horoscope for today is: Embrace your individuality today, and you might just find someone who appreciates you for who you are."
+  elif [[ "$horoscope_days" == "Thursday" ]]; then
+    echo "Horoscope for today is: Be open to new experiences today, and you might just find something special waiting for you."
+  elif [[ "$horoscope_days" == "Friday" ]]; then
+    echo "Horoscope for today is: Today is a day to focus on self-love and appreciation. Remember, you are worthy of love."
+  elif [[ "$horoscope_days" == "Saturday" ]]; then
+    echo "Horoscope for today is: Embrace your individuality today, and you might just find someone who appreciates you for who you are."
+  elif [[ "$horoscope_days" == "Sunday" ]]; then
+    echo "Horoscope for today is: Love is in the air today, so take a chance and strike up a conversation with someone new."
+  else
+    echo "$horoscope_days"
+  fi
+}
+display_horoscope
+
+function encourage_feedback() {
+  alias connect="https://lovematchmaker.com/connect"
+  echo "Connect with your matches: $(connect)"
+
+  alias feedback="mailto:feedback@lovematchmaker.com"
+  echo "Provide feedback: $(feedback)"
+}
+encourage_feedback
+
+function goodbye_warning_quotes() {
+  warnings=(
+    "Never mistake empathy for affection"
+    "Being single and happy is better than being sad and afraid in an abuse relationship"
+    "Never let someone who contributes so little to a relationship control so much of it"
+    "If another woman steals your man, there's no better revenge than letting her keep him. Real men can't be stolen"
+    "If you cheat on someone that is willing to do anything for you, you actually cheated yourself out of true loyalty"
+    "Never push a loyal person to the point where they longer care"
+    "Trying to forget someone you love is like trying to remember someone you've never met"
+    "Don't cheat, if the feelings aren't there then don't be either"
+    "The worst kind of hurt is betrayal, because it means someone was willing to hurt you just to make themselves feel better"
+  )
+
+  total_warnings=${#warnings[@]}
+
+  warning_index=$((RANDOM % total_warnings))
+
+  echo "${warnings[warning_index]}"
+
+}
+goodbye_warning_quotes
+
+function bid_farewell() {
+  echo "Farewell $user_name, and may the stars align in your favor!"
+  exit
+}
+bid_farewell
 
 
 
