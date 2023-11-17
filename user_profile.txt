@@ -1,0 +1,6 @@
+Name: 
+Age: 
+Gender: 
+Interest: 
+Personality: 
+Value: 
