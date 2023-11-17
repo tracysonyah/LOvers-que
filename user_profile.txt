@@ -1,6 +1,6 @@
-Name: 
-Age: 
-Gender: 
-Interest: 
-Personality: 
-Value: 
+Name: Tracy
+Age: 23
+Gender: female
+Interest: eating
+Personality: easy going
+Value: honesty, caring
