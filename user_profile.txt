@@ -1,6 +1,5 @@
-Name: 
-Age: 
-Gender: 
-Interest: 
-Personality: 
-Value: 
+Name, Nathan
+Gender, male
+Age, 30
+Interest, Interested in women and girls
+Profession, Enterpreneur
