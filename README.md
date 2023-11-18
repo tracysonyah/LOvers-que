@@ -1,7 +1,7 @@
 # LOvers-que
-This is a bash script that enables and make possible the communication and relationship between total strangers who are in search of love/lovers, partners or just a random friendship that might lead to a long life commitment. This is a program that plays matchmaker between two persons or a group of people, the script displays a number of people(based on it's judgement) that would be perfect matches or the closest thing to a perfect match for you. All you have to do is reach out to your choice of person(Could reach out to all of em). It's no secret that people go into wrong relationships often these days because they mistook attraction for affection. Some people don't even know how or where to start looking. This program is built on christianity; straight people only. No gays nor bys or anything of the like.
+This is a bash script that enables and makes possible the communication and relationship between total strangers who are in search of love/lovers, partners or just random friendships that may or may not lead to a long life commitment. This is a program that plays matchmaker between two persons or a group of people, the script displays a number of people(based on it's judgement) that would be perfect matches or the closest thing to a perfect match for you. All you have to do is reach out to your choice of person(Could reach out to all of em). It's no secret that people go into wrong relationships often these days because they mistook attraction for affection. Some people don't even know how or where to start looking. This program is built on christianity; straight people only. No gays nor bys or anything of the likes.
 
-##Key Features
+## Key Features
 + Displays a heartfelt welcome
   ```
   Welcomes user to the application
