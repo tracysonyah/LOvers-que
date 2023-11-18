@@ -209,10 +209,10 @@ function calculate_compatibility() {
 }
 calculate_compatibility
 
-# function select_random_profiles() {
-#   num_profiles=2  # Change 2 to the desired number of random profiles
-#   random_profiles=($(shuf -e "${unique_matches[@]}" -n $num_profiles))
-# }
+function select_random_profiles() {
+  num_profiles=5 
+  random_profiles=($(shuf -e "${unique_matches[@]}" -n $num_profiles))
+}
 
 function calculate_unique_compatibility() {
   for match in "${unique_matches[@]}"; do
