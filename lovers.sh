@@ -40,7 +40,6 @@ generate_love_quotes
 #store quote for later(personalized love message for user)
 function store_quote() {
   generate_love_quotes > lovemessage.txt
-  # wc -w love_message.txt
 }
 store_quote
 
@@ -88,11 +87,7 @@ personalities=(
 
 for i in {1..5} 
 do
-    profile_file="profiles/person$i.profile"
- 
-    # total_names=${#names[@]}
-    # name_index=$((RANDOM % total_names))
-    # echo "Name: ${names[name_index]}" > "$profile_file"
+    profile_file="profiles/person_$i.profile"
 
     #get the random names associated with gender stored in the array
     random_entry=${names[$((RANDOM % ${#names[@]}))]}
@@ -143,6 +138,7 @@ function collect_details() {
   echo "Value: $user_value" >> user_profile.txt
 }
 collect_details
+echo
 
 function validation() {
   export age_pattern='^[0-9]+$'
@@ -164,126 +160,112 @@ validation
 
 
 function find_potential_matches() {
-  potential_matches=$(find . -type f -name "*.profile" | grep -v "$user_name")
-  echo "$potential_matches"
-  personality_matches=$(grep -i 'personal' "$potential_matches" | awk '{print $2}')
+  potential_matches=$(find profiles -type f -name "*.profile" | grep -v "$user_name")
 
-  interest_matches=$(grep -i 'interest' "$potential_matches" | awk '{print $2}')
+  echo "Potential Matches:"
 
-  value_matches=$(grep -i 'value' "$potential_matches" | awk '{print $2}')
+  while read -r profile_file; do
+    name=$(grep -i 'Name' "$profile_file" | awk '{print $2}')
+    gender=$(grep -i 'Gender' "$profile_file" | awk '{print $2}')
+    age=$(grep -i 'Age' "$profile_file" | awk '{print $2}')
+    interests=$(grep -i 'Interests' "$profile_file" | cut -d ':' -f 2-)
+    personality=$(grep -i 'Personality' "$profile_file" | cut -d ':' -f 2-)
+    values=$(grep -i 'Values' "$profile_file" | cut -d ':' -f 2-)
+
+    # Check if the user is female and the potential match is male, or vice versa
+    if [[ "$user_gender" == "female" && "$gender" == "male" ]]; then
+      echo "Name: $name"
+      echo "Gender: $gender"
+      echo "Age: $age"
+      echo "Interests: $interests"
+      echo "Personality: $personality"
+      echo "Values: $values"
+      echo "-----"
+    elif [[ "$user_gender" == "male" && "$gender" == "female" ]]; then
+      echo "Name: $name"
+      echo "Gender: $gender"
+      echo "Age: $age"
+      echo "Interests: $interests"
+      echo "Personality: $personality"
+      echo "Values: $values"
+      echo "-----"
+    fi
+  done <<< "$potential_matches"
 }
 find_potential_matches
 
-function set_arrays() {
-  matches=(
-    ${personality_matches[@]}
-    ${interest_matches[@]}
-    ${value_matches[@]}
+function display_horoscope() {
+  horoscope_days=$(date +%A)
+
+  if [[ "$horoscope_days" == "Monday" ]]; then
+    echo "Today's horoscope: Today is a great day to connect with friends and family. You might just find love in the most unexpected places."
+  elif [[ "$horoscope_days" == "Tuesday" ]]; then
+    echo "Today's horoscope: Love is in the air today, so take a chance and strike up a conversation with someone new."
+  elif [[ "$horoscope_days" == "Wednesday" ]]; then
+    echo "Today's horoscope: Embrace your individuality today, and you might just find someone who appreciates you for who you are."
+  elif [[ "$horoscope_days" == "Thursday" ]]; then
+    echo "Today's horoscope: Be open to new experiences today, and you might just find something special waiting for you."
+  elif [[ "$horoscope_days" == "Friday" ]]; then
+    echo "Today's horoscope: Today is a day to focus on self-love and appreciation. Remember, you are worthy of love."
+  elif [[ "$horoscope_days" == "Saturday" ]]; then
+    echo "Today's horoscope: Embrace your individuality today, and you might just find someone who appreciates you for who you are."
+  elif [[ "$horoscope_days" == "Sunday" ]]; then
+    echo "Today's horoscope: Love is in the air today, so take a chance and strike up a conversation with someone new."
+  else
+    echo "$horoscope_days"
+  fi
+}
+display_horoscope
+echo
+
+function encourage_feedback() {
+  connect="https://LOvers-que.matchmaker.com/connect"
+  echo "Connect with your matches: $connect"
+
+  # alias connect="https://LOvers-que.matchmaker.com/connect"
+  # echo "Connect with your matches: $connect"
+
+  # alias feedback="mailto:feedback@LOvers-que.matchmaker.com"
+  # echo "Provide feedback: $feedback"
+
+  feedback="mailto:feedback@LOvers-que.matchmaker.com"
+  echo "Provide feedback: $feedback"
+}
+encourage_feedback
+echo
+
+function goodbye_warning_quotes() {
+  warnings=(
+    "Never mistake empathy for affection"
+    "Being single and happy is better than being sad and afraid in an abuse relationship"
+    "Never let someone who contributes so little to a relationship control so much of it"
+    "If another woman steals your man, there's no better revenge than letting her keep him. Real men can't be stolen"
+    "If you cheat on someone that is willing to do anything for you, you actually cheated yourself out of true loyalty"
+    "Never push a loyal person to the point where they longer care"
+    "Trying to forget someone you love is like trying to remember someone you've never met"
+    "Don't cheat, if the feelings aren't there then don't be either"
+    "The worst kind of hurt is betrayal, because it means someone was willing to hurt you just to make themselves feel better"
+    "Secrets aren't safe keep em to yourself, to yourself and nobody else"
   )
 
-  unique_matches=()
+  total_warnings=${#warnings[@]}
 
-  for match in "${matches[@]}"; do
-    if [[ -n "$match" && ! "${unique_matches[@]}" =~ "$match" ]]; then
-      unique_matches+=("$match")
-    fi
-  done
+  warning_index=$((RANDOM % total_warnings))
+
+  echo "Today's warning: ${warnings[warning_index]}"
+
 }
-set_arrays
+goodbye_warning_quotes
+echo
 
-function calculate_compatibility() {
-
-  match=$1
-  if [ -n "$match" ]; then
-    compatibility=$(awk -v rnd="$(awk 'BEGIN{srand(); print rand()}')" 'BEGIN{printf "%.2f\n", rnd * 100}')
-    format_compatibility=$(printf "%.2f" "$compatibility")
-    echo "Compatibility with $match is: $format_compatibility%"
-  else
-    echo "No matches found for compatibility calculation."
-  fi
-  # match=$1
-  # compatibility=$(awk -v rnd="$(awk 'BEGIN{srand(); print rand()}')" 'BEGIN{printf "%.2f\n", rnd * 100}')
-  # # compatibility=$(echo "$user_name","$match" | awk '{print rand(100)}')
-  # format_compatibility=$(printf "%.2f" "$compatibility")
-  # echo "Compatibility with $match is: $format_compatibility%"
+function bid_farewell() {
+  echo "Farewell $user_name, and may the stars align in your favor as you embark on this journey of love!"
+  exit
 }
-calculate_compatibility
+bid_farewell
+echo
 
-function select_random_profiles() {
-  num_profiles=5 
-  random_profiles=($(shuf -e "${unique_matches[@]}" -n $num_profiles))
-}
-
-function calculate_unique_compatibility() {
-  for match in "${unique_matches[@]}"; do
-    calculate_compatibility "$match" &
-  done
-
-  wait
-}
-calculate_unique_compatibility
-
-
-# function display_horoscope() {
-#   horoscope_days=$(date +%A)
-
-#   if [[ "$horoscope_days" == "Monday" ]]; then
-#     echo "Horoscope for today is: Today is a great day to connect with friends and family. You might just find love in the most unexpected places."
-#   elif [[ "$horoscope_days" == "Tuesday" ]]; then
-#     echo "Horoscope for today is: Love is in the air today, so take a chance and strike up a conversation with someone new."
-#   elif [[ "$horoscope_days" == "Wednesday" ]]; then
-#     echo "Horoscope for today is: Embrace your individuality today, and you might just find someone who appreciates you for who you are."
-#   elif [[ "$horoscope_days" == "Thursday" ]]; then
-#     echo "Horoscope for today is: Be open to new experiences today, and you might just find something special waiting for you."
-#   elif [[ "$horoscope_days" == "Friday" ]]; then
-#     echo "Horoscope for today is: Today is a day to focus on self-love and appreciation. Remember, you are worthy of love."
-#   elif [[ "$horoscope_days" == "Saturday" ]]; then
-#     echo "Horoscope for today is: Embrace your individuality today, and you might just find someone who appreciates you for who you are."
-#   elif [[ "$horoscope_days" == "Sunday" ]]; then
-#     echo "Horoscope for today is: Love is in the air today, so take a chance and strike up a conversation with someone new."
-#   else
-#     echo "$horoscope_days"
-#   fi
-# }
-# display_horoscope
-
-# function encourage_feedback() {
-#   alias connect="https://lovematchmaker.com/connect"
-#   echo "Connect with your matches: $(connect)"
-
-#   alias feedback="mailto:feedback@lovematchmaker.com"
-#   echo "Provide feedback: $(feedback)"
-# }
-# encourage_feedback
-
-# function goodbye_warning_quotes() {
-#   warnings=(
-#     "Never mistake empathy for affection"
-#     "Being single and happy is better than being sad and afraid in an abuse relationship"
-#     "Never let someone who contributes so little to a relationship control so much of it"
-#     "If another woman steals your man, there's no better revenge than letting her keep him. Real men can't be stolen"
-#     "If you cheat on someone that is willing to do anything for you, you actually cheated yourself out of true loyalty"
-#     "Never push a loyal person to the point where they longer care"
-#     "Trying to forget someone you love is like trying to remember someone you've never met"
-#     "Don't cheat, if the feelings aren't there then don't be either"
-#     "The worst kind of hurt is betrayal, because it means someone was willing to hurt you just to make themselves feel better"
-#     "Secrets aren't safe keep em to yourself, to yourself and nobody else"
-#   )
-
-#   total_warnings=${#warnings[@]}
-
-#   warning_index=$((RANDOM % total_warnings))
-
-#   echo "${warnings[warning_index]}"
-
-# }
-# goodbye_warning_quotes
-
-# function bid_farewell() {
-#   echo "Farewell $user_name, and may the stars align in your favor!"
-#   exit
-# }
-# bid_farewell
+echo "Don't forget to rate our app and recommend it to all the Love wolfs out there! Bye!"
 
 
 

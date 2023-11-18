@@ -1,6 +1,0 @@
-Name: Tracy
-Age: 23
-Gender: female
-Interest: eating
-Personality: intelligence
-Value: sleeping
