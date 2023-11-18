@@ -1,5 +1,5 @@
 # LOvers-que
-This is a bash script that's developed to enable and make possible the communication and relationship between total strangers who are in search of lovers, partners or just random friendship that might lead to a long life commitment. This is a program that plays matchmaker between two persons or a group of people. The aim for this script is to solve a real world problem; it's no secret that people go into wrong relationships because they probably didn't know the person's true self before or they just want to have somebody because no matter how hard they try, they just can't seem to find the right person. This program is built on christianity; straight people only. No gays nor bys or anything of the like.
+This is a bash script that enables and make possible the communication and relationship between total strangers who are in search of love/lovers, partners or just a random friendship that might lead to a long life commitment. This is a program that plays matchmaker between two persons or a group of people, the script displays a number of people(based on it's judgement) that would be perfect matches or the closest thing to a perfect match for you. All you have to do is reach out to your choice of person(Could reach out to all of em). It's no secret that people go into wrong relationships often these days because they mistook attraction for affection. Some people don't even know how or where to start looking. This program is built on christianity; straight people only. No gays nor bys or anything of the like.
 
 ##Key Features
 + Displays a heartfelt welcome
@@ -29,7 +29,7 @@ This is a bash script that's developed to enable and make possible the communica
 
 + User input(1)
   ```
-  Makes use of the 'read' command to capture user's details for both the love-themed experience and the matchmaking section
+  Makes use of the 'read' command to capture user's details for diaplaying potential matches later.
   ```
 
 + User input(2)
@@ -39,7 +39,8 @@ This is a bash script that's developed to enable and make possible the communica
 
 + File manipulations
   ```
-  Creates and manipulates files to store user's profiles, love messages and log matching results
+  Creates a directory that stores files with random profiles.
+  Creates a file that stores the user_profile
   ```
 
 + End-goal
